@@ -39,27 +39,35 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\GetPageBody.cs" />
-    <Compile Include="Api\GetPageResponse.cs" />
-    <Compile Include="Api\GetPageVersion.cs" />
-    <Compile Include="Api\GetPageView.cs" />
-    <Compile Include="Api\PageAncestors.cs" />
-    <Compile Include="Api\PageBody.cs" />
-    <Compile Include="Api\PageStorage.cs" />
-    <Compile Include="Api\PageUpdate.cs" />
-    <Compile Include="ConfluenceConfiguration.cs" />
-    <Compile Include="IPageUpdater.cs" />
-    <Compile Include="PutResult.cs" />
-    <Compile Include="RestfulPageUpdater.cs" />
-    <Compile Include="Api\PageVersion.cs" />
+    <Compile Include="Features\Configuration\Manual.cs" />
+    <Compile Include="Features\Hashing\IHasher.cs" />
+    <Compile Include="Features\Hashing\SHA1Hasher.cs" />
+    <Compile Include="Features\Writers\UpdateResult.cs" />
+    <Compile Include="Integrations\Confluence\Api\GetPageBody.cs" />
+    <Compile Include="Integrations\Confluence\Api\GetPageResponse.cs" />
+    <Compile Include="Integrations\Confluence\Api\GetPageVersion.cs" />
+    <Compile Include="Integrations\Confluence\Api\GetPageView.cs" />
+    <Compile Include="Integrations\Confluence\Api\PageAncestors.cs" />
+    <Compile Include="Integrations\Confluence\Api\PageBody.cs" />
+    <Compile Include="Integrations\Confluence\Api\PageStorage.cs" />
+    <Compile Include="Integrations\Confluence\Api\PageUpdate.cs" />
+    <Compile Include="Integrations\Confluence\ConfluenceConfig.cs" />
+    <Compile Include="Integrations\Confluence\ConfluencePageUpdater.cs" />
+    <Compile Include="Integrations\Console\ConsoleWriter.cs" />
+    <Compile Include="Features\Writers\IPageUpdater.cs" />
+    <Compile Include="Features\Writers\ContentResult.cs" />
+    <Compile Include="Integrations\Confluence\Api\RestfulConfluenceApi.cs" />
+    <Compile Include="Integrations\Confluence\Api\PageVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OwnersManual.Api
+namespace OwnersManual.Integrations.Confluence.Api
 {
     public class PageUpdate
     {

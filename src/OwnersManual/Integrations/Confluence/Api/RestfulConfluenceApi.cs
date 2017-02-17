@@ -1,23 +1,23 @@
-﻿using System;
 using System.Diagnostics;
 using System.Net;
-using System.Security.Cryptography;
-using System.Text;
 using CommonMark;
-using OwnersManual.Api;
+using OwnersManual.Features.Hashing;
+using OwnersManual.Features.Writers;
 using RestSharp;
 using RestSharp.Authenticators;
 
-namespace OwnersManual
+namespace OwnersManual.Integrations.Confluence.Api
 {
-    public class RestfulPageUpdater : IPageUpdater
+    public class RestfulConfluenceApi
     {
         readonly IRestClient _restClient;
-        readonly ConfluenceConfiguration _cfg;
+        readonly ConfluenceConfig _cfg;
+        readonly IHasher _hasher;
 
-        public RestfulPageUpdater(ConfluenceConfiguration cfg)
+        public RestfulConfluenceApi(ConfluenceConfig cfg, IHasher hasher)
         {
             _cfg = cfg;
+            _hasher = hasher;
             _restClient = new RestClient(cfg.Endpoint);
             _restClient.Authenticator = new HttpBasicAuthenticator(cfg.Username, cfg.Password);
         }
@@ -33,30 +33,21 @@ namespace OwnersManual
 
             var resp = _restClient.Execute<GetPageResponse>(req);
 
-            resp.Data.Hash = Hash(resp.Data.body.view.value);
+            resp.Data.Hash = _hasher.Hash(resp.Data.body.view.value);
 
             return resp.Data;
         }
 
-        public string Hash(string clearText)
-        {
-            using (var s = new SHA1Managed())
-            {
-                byte[] clearBytes = Encoding.UTF8.GetBytes(clearText);
-                byte[] cipherBytes = s.ComputeHash(clearBytes);
-                return Convert.ToBase64String(cipherBytes);
-            }
-        }
-
-        public PutResult Put( GetPageResponse oldPage, string content)
+        public ContentResult Put( GetPageResponse oldPage, string content)
         {
             var convertedContent = CommonMarkConverter.Convert(content, CommonMarkSettings.Default);
-            var hash = Hash(convertedContent);
+            var hash = _hasher.Hash(convertedContent);
 
+            //TODO: Figure out how to detect if this has changed or not. Hashing the confluence content is not the correct approach.
             if (hash == oldPage.Hash)
             {
                 Debug.WriteLine("HASHes match, ignoring.");
-                return PutResult.Duplicate;
+                return ContentResult.Duplicate;
             }
 
             var req = new RestRequest("/content/{pageId}", Method.PUT);
@@ -85,10 +76,10 @@ namespace OwnersManual
 
             if (resp.StatusCode == HttpStatusCode.OK)
             {
-                return PutResult.Ok;
+                return ContentResult.Ok;
             }
 
-            return PutResult.Unknown;
+            return ContentResult.Unknown;
         }
     }
 }

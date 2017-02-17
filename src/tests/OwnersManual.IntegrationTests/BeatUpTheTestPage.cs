@@ -1,24 +1,27 @@
 ﻿using System;
 using NUnit.Framework;
+using OwnersManual.Features.Hashing;
+using OwnersManual.Integrations.Confluence;
+using OwnersManual.Integrations.Confluence.Api;
 
 namespace OwnersManual.IntegrationTests
 {
     public class BeatUpTheTestPage
     {
-        IPageUpdater _updater;
+        RestfulConfluenceApi _updater;
         int pageId = 115818626;
 
         [SetUp]
         public void Y()
         {
-            _updater = new RestfulPageUpdater(ConfluenceConfiguration.FromConfig());
+            _updater = new RestfulConfluenceApi(ConfluenceConfig.FromConfig(), new SHA1Hasher());
         }
         [Test]
         public void X()
         {
             var oldPage = _updater.Get(pageId);
 
-            var newContent = $@"# {Guid.NewGuid()}
+            var newContent = $@"# Hi
 
 All the things
 
@@ -29,7 +32,8 @@ All the things
 ---
 
 **BOB**";
-            _updater.Put(oldPage, newContent);
+            var result = _updater.Put(oldPage, newContent);
+            Console.WriteLine(result);
         }
     }
 }
