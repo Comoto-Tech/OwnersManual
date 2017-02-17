@@ -3,8 +3,8 @@ using OwnersManual.Features.Configuration;
 
 namespace OwnersManual.Features.Writers
 {
-    public interface IPageUpdater
+    public interface IDocumentationWriter
     {
-        UpdateResult Update(IList<DocumentEntry> entries);
+        UpdateResult Write(IList<DocumentEntry> entries);
     }
 }

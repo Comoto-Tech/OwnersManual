@@ -8,6 +8,5 @@
         public string title { get; set; }
         public GetPageBody body { get; set; }
         public GetPageVersion version { get; set; }
-        public string Hash { get; set; }
     }
 }

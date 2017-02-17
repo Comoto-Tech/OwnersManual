@@ -2,6 +2,11 @@ namespace OwnersManual.Features.Writers
 {
     public class UpdateResult
     {
-        public ContentResult ContentResult { get; set; }
+        public UpdateResult(ContentResult contentResult)
+        {
+            ContentResult = contentResult;
+        }
+
+        public ContentResult ContentResult { get; }
     }
 }

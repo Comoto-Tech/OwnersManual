@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using OwnersManual.Features.Hashing;
 using OwnersManual.Integrations.Confluence;
 using OwnersManual.Integrations.Confluence.Api;
 
@@ -14,7 +13,7 @@ namespace OwnersManual.IntegrationTests
         [SetUp]
         public void Y()
         {
-            _updater = new RestfulConfluenceApi(ConfluenceConfig.FromConfig(), new SHA1Hasher());
+            _updater = new RestfulConfluenceApi(ConfluenceConfig.FromConfig());
         }
         [Test]
         public void X()

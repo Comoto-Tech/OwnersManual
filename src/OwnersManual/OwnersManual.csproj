@@ -43,7 +43,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Features\Configuration\DocumentEntry.cs" />
+    <Compile Include="Features\Configuration\IManualConfiguration.cs" />
     <Compile Include="Features\Configuration\Manual.cs" />
+    <Compile Include="Features\Configuration\ManualConfiguration.cs" />
+    <Compile Include="Features\Configuration\ManualInstance.cs" />
     <Compile Include="Features\Hashing\IHasher.cs" />
     <Compile Include="Features\Hashing\SHA1Hasher.cs" />
     <Compile Include="Features\Writers\UpdateResult.cs" />
@@ -56,9 +60,9 @@
     <Compile Include="Integrations\Confluence\Api\PageStorage.cs" />
     <Compile Include="Integrations\Confluence\Api\PageUpdate.cs" />
     <Compile Include="Integrations\Confluence\ConfluenceConfig.cs" />
-    <Compile Include="Integrations\Confluence\ConfluencePageUpdater.cs" />
+    <Compile Include="Integrations\Confluence\ConfluenceDocumentationWriter.cs" />
     <Compile Include="Integrations\Console\ConsoleWriter.cs" />
-    <Compile Include="Features\Writers\IPageUpdater.cs" />
+    <Compile Include="Features\Writers\IDocumentationWriter.cs" />
     <Compile Include="Features\Writers\ContentResult.cs" />
     <Compile Include="Integrations\Confluence\Api\RestfulConfluenceApi.cs" />
     <Compile Include="Integrations\Confluence\Api\PageVersion.cs" />

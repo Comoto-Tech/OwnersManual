@@ -1,7 +1,4 @@
-using System.Diagnostics;
 using System.Net;
-using CommonMark;
-using OwnersManual.Features.Hashing;
 using OwnersManual.Features.Writers;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -12,12 +9,10 @@ namespace OwnersManual.Integrations.Confluence.Api
     {
         readonly IRestClient _restClient;
         readonly ConfluenceConfig _cfg;
-        readonly IHasher _hasher;
 
-        public RestfulConfluenceApi(ConfluenceConfig cfg, IHasher hasher)
+        public RestfulConfluenceApi(ConfluenceConfig cfg)
         {
             _cfg = cfg;
-            _hasher = hasher;
             _restClient = new RestClient(cfg.Endpoint);
             _restClient.Authenticator = new HttpBasicAuthenticator(cfg.Username, cfg.Password);
         }
@@ -33,23 +28,11 @@ namespace OwnersManual.Integrations.Confluence.Api
 
             var resp = _restClient.Execute<GetPageResponse>(req);
 
-            resp.Data.Hash = _hasher.Hash(resp.Data.body.view.value);
-
             return resp.Data;
         }
 
         public ContentResult Put( GetPageResponse oldPage, string content)
         {
-            var convertedContent = CommonMarkConverter.Convert(content, CommonMarkSettings.Default);
-            var hash = _hasher.Hash(convertedContent);
-
-            //TODO: Figure out how to detect if this has changed or not. Hashing the confluence content is not the correct approach.
-            if (hash == oldPage.Hash)
-            {
-                Debug.WriteLine("HASHes match, ignoring.");
-                return ContentResult.Duplicate;
-            }
-
             var req = new RestRequest("/content/{pageId}", Method.PUT);
             req.AddUrlSegment("pageId", oldPage.id);
 
@@ -65,7 +48,7 @@ namespace OwnersManual.Integrations.Confluence.Api
                 {
                     storage = new PageStorage
                     {
-                        value = convertedContent,
+                        value = content,
                         representation = "storage"
                     }
                 }

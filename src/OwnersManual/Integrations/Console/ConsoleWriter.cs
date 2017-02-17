@@ -4,9 +4,9 @@ using OwnersManual.Features.Writers;
 
 namespace OwnersManual.Integrations.Console
 {
-    public class ConsoleWriter : IPageUpdater
+    public class ConsoleWriter : IDocumentationWriter
     {
-        public UpdateResult Update(IList<DocumentEntry> entries)
+        public UpdateResult Write(IList<DocumentEntry> entries)
         {
             foreach (var documentEntry in entries)
             {
@@ -16,7 +16,7 @@ namespace OwnersManual.Integrations.Console
                 System.Console.WriteLine();
             }
 
-            return new UpdateResult();
+            return new UpdateResult(ContentResult.Ok);
         }
     }
 }
