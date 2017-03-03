@@ -9,7 +9,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>@description@</description>
     <releaseNotes>@releaseNotes@</releaseNotes>
-    <tags>MAG-RM Fulfillment</tags>
+    <tags>MRG</tags>
     @dependencies@
     @references@
   </metadata>
